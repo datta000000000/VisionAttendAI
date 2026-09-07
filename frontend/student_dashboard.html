@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionAttend AI - Student Portal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Style -->
+    <link href="/static/styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar Container -->
+        <div id="sidebar-wrapper">
+            <div id="sidebar-container"></div>
+        </div>
+        
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <!-- Top Navigation Header -->
+            <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <button class="burger-menu-btn" id="menu-toggle">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h4 class="m-0 fw-bold text-navy">Student Portal</h4>
+                    </div>
+                    <div class="ms-auto d-flex align-items-center">
+                        <span class="text-secondary me-3" id="nav-user-info"><i class="fas fa-user-graduate me-1"></i>Student</span>
+                        <button class="btn btn-outline-danger btn-sm" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <div class="container-fluid px-4 py-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="fw-bold">Hi, <span id="welcome-name">Student</span>!</h2>
+                        <p class="text-secondary m-0">Here is your personal attendance log and check-in summary.</p>
+                    </div>
+                </div>
+
+                <!-- Stats Cards Row -->
+                <div class="row g-4 mb-4">
+                    <!-- Today's Status -->
+                    <div class="col-md-6 col-lg-6">
+                        <div class="stat-card" id="today-status-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="stat-title">Today's Check-In Status</div>
+                                    <div class="stat-value text-uppercase" id="today-status">-</div>
+                                </div>
+                                <div class="fs-1 text-primary" id="today-status-icon"><i class="fas fa-calendar-day"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Overall Attendance Percentage -->
+                    <div class="col-md-6 col-lg-6">
+                        <div class="stat-card accent-green">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="stat-title">My Attendance Rate</div>
+                                    <div class="stat-value" id="overall-percentage">-%</div>
+                                </div>
+                                <div class="text-success fs-1"><i class="fas fa-percentage"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Recent Attendance Records -->
+                    <div class="col-lg-8 col-md-12">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold mb-3"><i class="fas fa-history me-2 text-primary"></i>My Recent Check-ins</h5>
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
+                                                <th>Confidence</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="attendance-body">
+                                            <tr>
+                                                <td colspan="4" class="text-center text-secondary py-4">No attendance logs found.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Student Profile Card -->
+                    <div class="col-lg-4 col-md-12">
+                        <div class="card border-0 shadow-sm h-100 bg-gradient-navy">
+                            <div class="card-body text-white p-4">
+                                <h5 class="card-title fw-bold mb-4"><i class="fas fa-user-circle me-2 text-warning"></i>My Student Profile</h5>
+                                <div class="mb-3">
+                                    <label class="text-white-50 small d-block">Full Name</label>
+                                    <div class="fw-bold fs-5" id="profile-name">-</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="text-white-50 small d-block">Student ID</label>
+                                    <code class="text-warning fw-bold fs-5" id="profile-student-id">-</code>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="text-white-50 small d-block">Organization</label>
+                                    <div class="fw-bold" id="profile-org">-</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="text-white-50 small d-block">Role Permissions</label>
+                                    <span class="badge bg-indigo text-uppercase">Student (Read-Only)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/main.js"></script>
+    <script src="/static/student_dashboard.js"></script>
+</body>
+</html>

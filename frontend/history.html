@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionAttend AI - Attendance History</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Style -->
+    <link href="/static/styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar Container -->
+        <div id="sidebar-wrapper">
+            <div id="sidebar-container"></div>
+        </div>
+        
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <!-- Top Navigation Header -->
+            <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <button class="burger-menu-btn" id="menu-toggle">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h4 class="m-0 fw-bold text-navy">Attendance Logs</h4>
+                    </div>
+                    <div class="ms-auto d-flex align-items-center">
+                        <span class="text-secondary me-3" id="top-user-role"><i class="fas fa-user-circle me-1"></i>Administrator</span>
+                        <button class="btn btn-outline-danger btn-sm" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <div class="container-fluid px-4 py-4">
+                
+                <!-- Filters Card -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3 border-0">
+                        <h5 class="m-0 fw-bold text-primary"><i class="fas fa-filter me-2"></i>Filter Logs</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="filter-form">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-bold text-secondary">Student ID</label>
+                                    <input type="text" class="form-control" id="filter-student-id" placeholder="e.g. STU123">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-bold text-secondary">Name</label>
+                                    <input type="text" class="form-control" id="filter-name" placeholder="Search by name">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-bold text-secondary">Department</label>
+                                    <select class="form-select" id="filter-department">
+                                        <option value="">All Departments</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Electrical Engineering">Electrical Engineering</option>
+                                        <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                        <option value="Civil Engineering">Civil Engineering</option>
+                                        <option value="Artificial Intelligence">Artificial Intelligence</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-bold text-secondary">Specific Date</label>
+                                    <input type="date" class="form-control" id="filter-date">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-bold text-secondary">Start Date</label>
+                                    <input type="date" class="form-control" id="filter-start-date">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-bold text-secondary">End Date</label>
+                                    <input type="date" class="form-control" id="filter-end-date">
+                                </div>
+                                <div class="col-md-6 d-flex align-items-end justify-content-end gap-2">
+                                    <button type="button" class="btn btn-outline-secondary px-3" id="reset-btn">Reset</button>
+                                    <button type="submit" class="btn btn-primary px-4"><i class="fas fa-search me-1"></i>Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Table Card -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+                        <h5 class="m-0 fw-bold text-primary"><i class="fas fa-list me-2"></i>Attendance Records</h5>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="refresh-btn">
+                            <i class="fas fa-arrows-rotate me-1"></i>Refresh
+                        </button>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th data-sort="student_id" class="cursor-pointer" style="cursor: pointer;">
+                                            Student ID <i class="fas fa-sort text-muted ms-1"></i>
+                                        </th>
+                                        <th data-sort="name" class="cursor-pointer" style="cursor: pointer;">
+                                            Name <i class="fas fa-sort text-muted ms-1"></i>
+                                        </th>
+                                        <th data-sort="department" class="cursor-pointer" style="cursor: pointer;">
+                                            Department <i class="fas fa-sort text-muted ms-1"></i>
+                                        </th>
+                                        <th data-sort="date" class="cursor-pointer" style="cursor: pointer;">
+                                            Date <i class="fas fa-sort-down ms-1"></i>
+                                        </th>
+                                        <th data-sort="time" class="cursor-pointer" style="cursor: pointer;">
+                                            Time <i class="fas fa-sort text-muted ms-1"></i>
+                                        </th>
+                                        <th data-sort="status" class="cursor-pointer" style="cursor: pointer;">
+                                            Status <i class="fas fa-sort text-muted ms-1"></i>
+                                        </th>
+                                        <th data-sort="confidence_score" class="cursor-pointer" style="cursor: pointer;">
+                                            Confidence <i class="fas fa-sort text-muted ms-1"></i>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-table-body">
+                                    <!-- Loaded dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination Footer -->
+                    <div class="card-footer bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                        <div class="text-secondary small">
+                            Total Records: <strong id="total-count">0</strong>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <button type="button" class="btn btn-outline-secondary btn-sm px-3" id="prev-page-btn" disabled>
+                                <i class="fas fa-chevron-left me-1"></i>Previous
+                            </button>
+                            <span class="small">Page <strong id="page-num">1</strong> of <strong id="total-pages">1</strong></span>
+                            <button type="button" class="btn btn-outline-secondary btn-sm px-3" id="next-page-btn" disabled>
+                                Next<i class="fas fa-chevron-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/main.js"></script>
+    <script src="/static/history.js"></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionAttend AI - Reports & Exports</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Style -->
+    <link href="/static/styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar Container -->
+        <div id="sidebar-wrapper">
+            <div id="sidebar-container"></div>
+        </div>
+        
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <!-- Top Navigation Header -->
+            <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <button class="burger-menu-btn" id="menu-toggle">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h4 class="m-0 fw-bold text-navy">Reports & Exports</h4>
+                    </div>
+                    <div class="ms-auto d-flex align-items-center">
+                        <span class="text-secondary me-3" id="top-user-role"><i class="fas fa-user-circle me-1"></i>Administrator</span>
+                        <button class="btn btn-outline-danger btn-sm" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <div class="container-fluid px-4 py-4">
+                
+                <!-- Quick Stats row -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <div class="stat-card accent-green bg-white shadow-sm">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="stat-title">Total Present Logs</div>
+                                    <div class="stat-value" id="total-presents">-</div>
+                                </div>
+                                <div class="text-success fs-1"><i class="fas fa-database"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="stat-card accent-orange bg-white shadow-sm">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="stat-title">Overall Attendance Rate</div>
+                                    <div class="stat-value" id="overall-percentage">-%</div>
+                                </div>
+                                <div class="text-warning fs-1"><i class="fas fa-percent"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export CSV Filters -->
+                <div class="card border-0 shadow-sm mb-4" id="export-card-container">
+                    <div class="card-header bg-white py-3 border-0">
+                        <h5 class="m-0 fw-bold text-primary"><i class="fas fa-file-csv me-2"></i>Export CSV Logs</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="report-filter-form">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-secondary">Student ID</label>
+                                    <input type="text" class="form-control" id="filter-student-id" placeholder="Filter by ID">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-secondary">Name</label>
+                                    <input type="text" class="form-control" id="filter-name" placeholder="Filter by name">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-secondary">Department</label>
+                                    <select class="form-select" id="filter-department">
+                                        <option value="">All Departments</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Electrical Engineering">Electrical Engineering</option>
+                                        <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                        <option value="Civil Engineering">Civil Engineering</option>
+                                        <option value="Artificial Intelligence">Artificial Intelligence</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-secondary">Specific Date</label>
+                                    <input type="date" class="form-control" id="filter-date">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-secondary">Start Date</label>
+                                    <input type="date" class="form-control" id="filter-start-date">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-secondary">End Date</label>
+                                    <input type="date" class="form-control" id="filter-end-date">
+                                </div>
+                                <div class="col-12 text-end mt-4">
+                                    <button type="submit" id="export-csv-btn" class="btn btn-primary px-4 py-2 fw-semibold">
+                                        <i class="fas fa-file-csv me-2"></i>Export CSV
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="row g-4">
+                    <!-- Department chart -->
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white py-3 border-0">
+                                <h5 class="m-0 fw-bold text-primary"><i class="fas fa-chart-bar me-2"></i>Department Wise Attendance</h5>
+                            </div>
+                            <div class="card-body">
+                                <div style="height: 300px; position: relative;">
+                                    <canvas id="department-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Monthly chart -->
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white py-3 border-0">
+                                <h5 class="m-0 fw-bold text-primary"><i class="fas fa-chart-line me-2"></i>Monthly Attendance Trends</h5>
+                            </div>
+                            <div class="card-body">
+                                <div style="height: 300px; position: relative;">
+                                    <canvas id="monthly-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/main.js"></script>
+    <script src="/static/reports.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionAttend AI - Teacher Dashboard</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Style -->
+    <link href="/static/styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar Container -->
+        <div id="sidebar-wrapper">
+            <div id="sidebar-container"></div>
+        </div>
+        
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <!-- Top Navigation Header -->
+            <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <button class="burger-menu-btn" id="menu-toggle">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h4 class="m-0 fw-bold text-navy">Teacher Portal</h4>
+                    </div>
+                    <div class="ms-auto d-flex align-items-center">
+                        <span class="text-secondary me-3" id="nav-user-info"><i class="fas fa-user-circle me-1"></i>Teacher</span>
+                        <button class="btn btn-outline-danger btn-sm" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <div class="container-fluid px-4 py-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="fw-bold">Welcome Back, <span id="welcome-name">Teacher</span>!</h2>
+                        <p class="text-secondary m-0" id="last-update">Loading organization stats...</p>
+                    </div>
+                </div>
+
+                <!-- Quick Actions Row -->
+                <h5 class="fw-bold text-secondary mb-3"><i class="fas fa-bolt text-indigo me-2"></i>Quick Actions</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <a href="registration.html" class="btn btn-outline-indigo w-100 py-3 rounded-3 text-center d-block text-decoration-none card-hover">
+                            <i class="fas fa-user-plus fs-4 d-block mb-2"></i>
+                            <span class="small fw-bold">Register Student</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <a href="recognition.html" class="btn btn-outline-indigo w-100 py-3 rounded-3 text-center d-block text-decoration-none card-hover">
+                            <i class="fas fa-video fs-4 d-block mb-2"></i>
+                            <span class="small fw-bold">Live Scan</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <a href="history.html" class="btn btn-outline-indigo w-100 py-3 rounded-3 text-center d-block text-decoration-none card-hover">
+                            <i class="fas fa-history fs-4 d-block mb-2"></i>
+                            <span class="small fw-bold">History Log</span>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <a href="reports.html" class="btn btn-outline-indigo w-100 py-3 rounded-3 text-center d-block text-decoration-none card-hover">
+                            <i class="fas fa-chart-pie fs-4 d-block mb-2"></i>
+                            <span class="small fw-bold">Reports & Stats</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stats Cards Row (5 columns grid) -->
+                <div class="row g-3 mb-4">
+                    <div class="col-xl col-md-4 col-sm-6">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="stat-title">Total Students</div>
+                                    <div class="stat-value" id="total-students">-</div>
+                                </div>
+                                <div class="text-primary fs-2"><i class="fas fa-users"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl col-md-4 col-sm-6">
+                        <div class="stat-card accent-green">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="stat-title">Present Today</div>
+                                    <div class="stat-value" id="today-attendance">-</div>
+                                </div>
+                                <div class="text-success fs-2"><i class="fas fa-user-check"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl col-md-4 col-sm-6">
+                        <div class="stat-card accent-green">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="stat-title">Today's Rate</div>
+                                    <div class="stat-value" id="today-percentage">-%</div>
+                                </div>
+                                <div class="text-success fs-2"><i class="fas fa-percentage"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl col-md-6 col-sm-6">
+                        <div class="stat-card accent-red">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="stat-title">Overall Rate</div>
+                                    <div class="stat-value" id="overall-percentage">-%</div>
+                                </div>
+                                <div class="text-danger fs-2"><i class="fas fa-chart-line"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary Row -->
+                <div class="row g-4">
+                    <!-- Recent Activity Panel -->
+                    <div class="col-lg-7 col-md-12">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white py-3 border-0">
+                                <h5 class="m-0 fw-bold text-primary"><i class="fas fa-history me-2"></i>Recent Attendance Activity</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <ul class="list-group list-group-flush" id="recent-activity-container">
+                                    <li class="list-group-item text-center text-muted py-4">
+                                        <span class="spinner-border spinner-border-sm me-2"></span> Loading recent activity logs...
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Organization Info -->
+                    <div class="col-lg-5 col-md-12">
+                        <div class="card border-0 shadow-sm h-100 bg-gradient-navy">
+                            <div class="card-body text-white p-4">
+                                <h5 class="card-title fw-bold mb-4"><i class="fas fa-info-circle me-2 text-warning"></i>My Organization Portal</h5>
+                                <div class="mb-3">
+                                    <label class="text-white-50 small d-block">Authorized User</label>
+                                    <div class="fw-bold" id="teacher-profile-name">-</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="text-white-50 small d-block">Active Roles</label>
+                                    <div class="fw-bold text-capitalize badge bg-indigo" id="teacher-profile-role">-</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="text-white-50 small d-block">Default System Tenant Code</label>
+                                    <code class="text-warning fw-bold fs-5" id="teacher-org-code">-</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/main.js"></script>
+    <script src="/static/teacher_dashboard.js"></script>
+</body>
+</html>
